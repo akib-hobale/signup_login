@@ -33,7 +33,7 @@ async function addSubjects(req,res,next){
 
 async function getSubjets(req,res,next){
     try{
-        let allSubject = await Subject.findAll({});
+        let allSubject = await Subject.find({},{_id:1,subjectName:1});
         if(!allSubject){
             // return res.status(400).json({
             //     message:"Data Not Found",
@@ -57,5 +57,18 @@ async function getSubjets(req,res,next){
     }
 }
 
+async function removeSubject(req,res,next){    
+    let {id} = req.params;
+    let result = await Subject.findOneAndRemove({_id:id});
+    console.log(result)
+    if(!result){
+            return res.send(Response.sendResponse(false,null,CUSTOM_MESSAGE.RECORD_DELETED_FAILURE,STATUS_CODE.NOT_MODIFIED))
+    } else {
+        return res.send(Response.sendResponse(true,result,CUSTOM_MESSAGE.RECORD_DELETED_SUCCESS,STATUS_CODE.OK))
+    }
+}
+
+
 module.exports.getSubjets = getSubjets;
 module.exports.addSubjects = addSubjects;
+module.exports.removeSubject = removeSubject;

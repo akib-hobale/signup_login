@@ -25,6 +25,17 @@ class Response {
         }
         return response;
     }
+
+    static internalServerError(message) {
+
+        var response = {};
+        response.statusCode = STATUS_CODE.INTERNAL_SERVER_ERROR;
+        response.success = false;
+        response.result = false;
+        response.message = message;
+        response.data = null;
+        return response;
+    }
 }
 
 module.exports = Response;

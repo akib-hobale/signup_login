@@ -74,6 +74,8 @@ module.exports = Object.freeze({
 
     EXPECTATION_FAILED : 417,
 
+    UNPROCESSABLE : 422,
+
     INTERNAL_SERVER_ERROR : 500,
 
     NOT_IMPLEMENTED : 501,

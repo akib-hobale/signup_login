@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const subjects = require('./routes/subjectRoutes');
+
+
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -12,8 +14,8 @@ const mongoose = require('mongoose');
 if(!global.appRoot)
 global.appRoot=__dirname;
 
-if (!global.Response)
-global.Response = require('./utils/Response');  //response structure makes global
+if (!global.RESPONSE)
+global.RESPONSE = require('./utils/Response');  //response structure makes global
 
 
 if (!global.STATUS_CODE)
@@ -44,7 +46,7 @@ mongoose.connect(ENVCONFIG.url, {
 });
 
 
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
@@ -55,7 +57,7 @@ app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Headers","Origin","X-Requested-With,Content-Type,Accept,Authorization");
     if(req.method === "OPTIONS"){
-        res.header("Access-Control-Allow-Methods","POST,GET,DELETE,PUT,PATCH");
+        res.header("Access-Control-Allow-Methods","GET,POST,DELETE,PUT,PATCH");
         return res.status(200).json({})
     }
     next();
@@ -68,19 +70,15 @@ app.use('/subjects',subjects);
 
 // app.use()
 
-app.use((req,res,next)=>{
-    const error = new Error('Not Found');
-    error.status(404);
+app.use((req, res, next) => {
+    const error = new Error('Route not found!');
+    error.status = 500;
     next(error);
+})
+
+app.use((error, req, res, next) => {
+    return res.send(RESPONSE.sendResponse(false, "", error.message, error.status || 500));
 });
 
-app.use((error,req,res,next)=>{
-    res.status(error.status || 500);
-    res.json({
-        error:{
-            message:error.message
-        }
-    })
-})
 
 module.exports = app;
