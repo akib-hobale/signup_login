@@ -9,7 +9,6 @@ function loginUser(req, res) {
             res.send(errorData);
         });
     } catch (error) {
-        console.log(error)
         res.send(RESPONSE.internalServerError(error.message));
     }
 }

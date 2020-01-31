@@ -6,8 +6,7 @@ module.exports = Object.freeze({
 
     USER_EXIST : "User already exist.",
 
-    USER_NOT_EXIST : "User not exist.",
-   
+    USER_NOT_EXIST : "User not exist.",   
 
     EMAIL_USERNAME_NOT_EXIST :  "You can use this credentials.",
 
@@ -23,8 +22,7 @@ module.exports = Object.freeze({
 
     RECORD_CREATED: "Record added successfully",
 
-    GET_RECORD_SUCCESS: "Record fetched successfully",
-   
+    GET_RECORD_SUCCESS: "Record fetched successfully",   
 
     GET_ALL_RECORDS: "Records fetched successfully",
 
@@ -63,6 +61,8 @@ module.exports = Object.freeze({
     SUBJECT_ALREADY_EXIST:"Subject already exist!",
 
     CRON_RESPONSE:"Done",
+
+    USER_REGISTER:"User register successfully",
     
 
 });

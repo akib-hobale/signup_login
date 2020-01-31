@@ -9,7 +9,6 @@ const JwtToken = require("../models/jwtToken.model");
 
 
 // User Login Api
-
 async function loginUser(req, successData, errorData) {
     try {
         let password;
@@ -35,7 +34,6 @@ async function loginUser(req, successData, errorData) {
             //     token = await generateJwtToken(userRes, "User");
             // }
             token = await generateJwtToken(userRes);
-            console.log(token, "User Token")
             savetoken = await saveToken(token,userRes._id); 
             if(savetoken){
                 return successData(RESPONSE.sendResponse(true, {
@@ -66,7 +64,6 @@ async function loginUser(req, successData, errorData) {
 async function saveToken(token,userId){
     try{        
         let user = await JwtToken.findOne({userId:userId});
-        console.log(userId,"user data")
         if(!user){
             let saveToken = new JwtToken({
                 token: token,
@@ -75,17 +72,16 @@ async function saveToken(token,userId){
               saveToken.save();
               return true;
          } else { 
-            let result = await JwtToken.update(
-                {id:userId},
+            let result = await JwtToken.updateOne(
+                {userId:userId},
                 {$set:{token:token}}
                 );        
-                console.log(result,"Update Token")
 
                 if(result){
                     return true;
-                } else {
+                  } else {
                     return false;
-                }
+                  }
 
          }
     }catch(error){

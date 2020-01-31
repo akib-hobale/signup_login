@@ -5,10 +5,22 @@ const morgan = require('morgan');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const subjects = require('./routes/subjectRoutes');
+// const questions = require('../routes/questionRoutes');
 
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
+
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json')
+// const swaggerJsDoc = require("swagger-jsdoc");
+
+
+// app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
+
 
 //globals defined
 if(!global.appRoot)
@@ -66,6 +78,7 @@ app.use((req,res,next)=>{
 app.use('/product',productRoutes);
 app.use('/user',userRoutes);
 app.use('/subjects',subjects);
+// app.use('/questions',questions);
 
 
 // app.use()

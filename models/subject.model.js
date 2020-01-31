@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
-const subjectSchema = mongoose.Schema({
-    _id:
-    {
-       type:mongoose.Types.ObjectId,
-    }, 
+const subjectSchema = mongoose.Schema({    
     subjectName:{
         type:String,
         require:true
+    },
+    subjectDescription:{
+        type:String
+    },
+    examTime:{
+        type:String
     }   
 },
 {

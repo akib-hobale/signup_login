@@ -7,29 +7,31 @@ const JwtToken = require("../models/jwtToken.model");
 
 async function signup(req, successData, errorData) {
     try {
-        let users = await User.findOne({ email: req.body.email });
+
+        const {email,first_name,last_name,password,role} = req.body;
+        let users = await User.findOne({ email: email });
         if (users) {
             return errorData(RESPONSE.sendResponse(false, "", CUSTOM_MESSAGE.USER_EXIST, STATUS_CODE.UNPROCESSABLE))
         }
 
-        let hash = await bcrypt.hash(req.body.password, 10);
+        let hash = await bcrypt.hash(password, 10);
         //make email string in to lowercase
-        req.body.email = req.body.email.toLowerCase();
+        email = email.toLowerCase();
         //create new user.
         const user = new User({
-            email: req.body.email,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            phone_no: req.body.phone_no,
+            email: email,
+            first_name: first_name,
+            last_name:last_name,
+            phone_no: phone_no,
             password: hash,
-            role: req.body.role
+            role: role
         });
 
         let result = await user.save();
 
         //jwt token create
         const token = jwt.sign({
-            email: result.email,
+            email: email,
             userId: result._id
         },
             ENVCONFIG.jwtKey,
@@ -42,7 +44,7 @@ async function signup(req, successData, errorData) {
         });
 
         await saveToken.save();
-        return successData(RESPONSE.sendResponse(true, "", CUSTOM_MESSAGE.RECORD_CREATED, STATUS_CODE.OK));
+        return successData(RESPONSE.sendResponse(true, "", CUSTOM_MESSAGE.USER_REGISTER, STATUS_CODE.OK));
 
     } catch (error) {
         return errorData(RESPONSE.sendResponse(false, "", error.message, STATUS_CODE.INTERNAL_SERVER_ERROR));
