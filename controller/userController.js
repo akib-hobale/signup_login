@@ -3,9 +3,9 @@ const userService = require('../services/userService');
 
 
 
-function signup(req, res) {
+function signUp(req, res) {
     try {
-        userService.signup(req, function (successData) {
+        userService.signUp(req, function (successData) {
             res.send(successData);
         }, function (errorData) {
             res.send(errorData)
@@ -15,4 +15,18 @@ function signup(req, res) {
     }
 }
 
-module.exports.signup = signup;
+function userInfo(req,res){
+    try{
+        userService.userInfo(req,function(successData){
+            res.send(successData);
+        },function(errorData){
+            res.send(errorData)
+        })
+    } catch(error){
+        res.send(RESPONSE.internalServerError(error.message));
+    }
+    
+}
+
+module.exports.signUp = signUp;
+module.exports.userInfo = userInfo;

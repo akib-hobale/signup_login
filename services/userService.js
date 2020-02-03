@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/user.model');
 const JwtToken = require("../models/jwtToken.model");
 
-async function signup(req, successData, errorData) {
+async function signUp(req, successData, errorData) {
     try {
 
         const {email,first_name,last_name,password,role} = req.body;
@@ -51,4 +51,20 @@ async function signup(req, successData, errorData) {
     }
 }
 
-module.exports.signup = signup;
+
+async function userInfo(req,successData,errorData){
+    try{
+            const userId = req.userData;
+            let userInformation = await User.findOne({_id:userId._id});
+            if(!userInformation){
+                return errorData(RESPONSE.sendResponse(false,"",CUSTOM_MESSAGE.USER_NOT_EXIST,STATUS_CODE.NOT_FOUND));
+            } else{
+                return successData(RESPONSE.sendResponse(true,userInformation,CUSTOM_MESSAGE.GET_RECORD_SUCCESS,STATUS_CODE.OK));
+            }
+    } catch(error){
+        return errorData(RESPONSE.sendResponse(false,"",error.message,STATUS_CODE.INTERNAL_SERVER_ERROR));
+    }
+}
+
+module.exports.signUp = signUp;
+module.exports.userInfo = userInfo;
