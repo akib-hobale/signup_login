@@ -4,7 +4,8 @@ const Subject = require('../models/subject.model');
 
 async function addSubjects(req,successData,errorData){
     try{
-        let {subjectName,subjectDescription,examTime} = req.body;
+        console.log("File Path")
+        let {subjectName,subjectDescription,examTime,} = req.body;
         
         subjectName = subjectName.toUpperCase();
         let findSubject = await Subject.findOne({subjectName:subjectName});
@@ -15,7 +16,8 @@ async function addSubjects(req,successData,errorData){
             let subject = new Subject({
                 subjectName:subjectName,
                 subjectDescription:subjectDescription,
-                examTime:examTime
+                examTime:examTime,
+                subjectImage:req.file.path
             })
             let result = await subject.save();  
     

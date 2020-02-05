@@ -5,6 +5,6 @@ const questionController = require('../controller/questionController');
 
 router.post('/',questionController.addQuestions);
 
-router.get('/',questionController.getQuestions);
+router.get('/:subjectId',questionController.getQuestions);
 
 module.exports = router;

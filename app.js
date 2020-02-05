@@ -1,24 +1,14 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const subjects = require('./routes/subjectRoutes');
-// const questions = require('../routes/questionRoutes');
-
-
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-
-
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json')
-// const swaggerJsDoc = require("swagger-jsdoc");
-
-
-// app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+const questions = require('./routes/questionRoutes');
+const answers = require('./routes/answersRoutes');
 
 
 
@@ -48,7 +38,7 @@ mongoose.Promise = global.Promise;
 // Connecting to the database
 mongoose.connect(ENVCONFIG.url, {
     useNewUrlParser: true,
-    useCreateIndex : true
+    useCreateIndex : true,
 
 }).then(() => {
     console.log(`MongoDB successfully connected to the "${ENVCONFIG.NAME}" database`);    
@@ -57,17 +47,18 @@ mongoose.connect(ENVCONFIG.url, {
     process.exit();
 });
 
-
-app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+app.use('/uploads', express.static('uploads'));
+
+
 app.use(morgan('dev'));
 
 
-
-
 app.use((req,res,next)=>{
-    res.header("Access-Control-Allow-Origin","*");
-    res.header("Access-Control-Allow-Headers","Origin","X-Requested-With,Content-Type,Accept,Authorization");
+    res.header("Access-Control-Allow-Origin","*");   
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Action, Authorization");
+   
     if(req.method === "OPTIONS"){
         res.header("Access-Control-Allow-Methods","GET,POST,DELETE,PUT,PATCH");
         return res.status(200).json({})
@@ -78,7 +69,8 @@ app.use((req,res,next)=>{
 app.use('/product',productRoutes);
 app.use('/user',userRoutes);
 app.use('/subjects',subjects);
-// app.use('/questions',questions);
+app.use('/questions',questions);
+app.use('/answer',answers);
 
 
 // app.use()

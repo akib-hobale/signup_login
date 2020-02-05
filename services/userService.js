@@ -55,7 +55,7 @@ async function signUp(req, successData, errorData) {
 async function userInfo(req,successData,errorData){
     try{
             const userId = req.userData;
-            let userInformation = await User.findOne({_id:userId._id});
+            let userInformation = await User.findOne({_id:userId.Id},{email:1,first_name:1,last_name:1,phone_no:1,role:1});
             if(!userInformation){
                 return errorData(RESPONSE.sendResponse(false,"",CUSTOM_MESSAGE.USER_NOT_EXIST,STATUS_CODE.NOT_FOUND));
             } else{

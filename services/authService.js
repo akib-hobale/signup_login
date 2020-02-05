@@ -11,6 +11,7 @@ const JwtToken = require("../models/jwtToken.model");
 // User Login Api
 async function loginUser(req, successData, errorData) {
     try {
+       
         let password;
         let token;      
         const formEmail = req.body.email;

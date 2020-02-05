@@ -10,7 +10,10 @@ const subjectSchema = mongoose.Schema({
     },
     examTime:{
         type:String
-    }   
+    },
+    subjectImage:{
+        type:String
+    }
 },
 {
     timestamps: true
