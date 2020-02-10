@@ -38,7 +38,7 @@ async function getQuestions(req, successData, errorData) {
             return errorData(RESPONSE.sendResponse(false,"",CUSTOM_MESSAGE.RECORD_NOT_FOUND,STATUS_CODE.NOT_FOUND));
         }
         else {
-            return successData(RESPONSE.sendResponse(true,questions,CUSTOM_MESSAGE.GET_ALL_RECORDS.STATUS_CODE.OK))
+            return successData(RESPONSE.sendResponse(true,questions,CUSTOM_MESSAGE.GET_ALL_RECORDS,STATUS_CODE.OK))
         }
 
     } catch (error) {
@@ -59,7 +59,7 @@ async function addQuestions(req,successData,errorData){
             question_type:question_type
         });
         let result = await questions.save();
-        return successData(RESPONSE.sendResponse(true,"",CUSTOM_MESSAGE.RECORD_CREATED.STATUS_CODE.OK))
+        return successData(RESPONSE.sendResponse(true,"",CUSTOM_MESSAGE.RECORD_CREATED,STATUS_CODE.OK))
 
     } catch(error){
         return errorData(RESPONSE.sendResponse(false,"",error.message,STATUS_CODE.INTERNAL_SERVER_ERROR))
