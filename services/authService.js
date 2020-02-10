@@ -64,27 +64,45 @@ async function loginUser(req, successData, errorData) {
  */
 async function saveToken(token,userId){
     try{        
-        let user = await JwtToken.findOne({userId:userId});
-        if(!user){
-            let saveToken = new JwtToken({
+        // let user = await JwtToken.findOne({userId:userId});
+        // if(!user){
+        //     let saveToken = new JwtToken({
+        //         token: token,
+        //         user: userId
+        //       });
+        //       saveToken.save();
+        //       return true;
+        //  } else { 
+        //     let result = await JwtToken.updateOne(
+        //         {userId:userId},
+        //         {$set:{token:token}}
+        //         );        
+
+        //         if(result){
+        //             return true;
+        //           } else {
+        //             return false;
+        //           }
+
+        //  }
+
+
+      //remove previous all tokens of users
+      await JwtToken.remove({
+        userId: userId
+      });
+
+      //token saved in database 
+      let saveToken = new JwtToken({
                 token: token,
                 user: userId
               });
-              saveToken.save();
-              return true;
-         } else { 
-            let result = await JwtToken.updateOne(
-                {userId:userId},
-                {$set:{token:token}}
-                );        
-
-                if(result){
-                    return true;
-                  } else {
-                    return false;
-                  }
-
-         }
+    let result = await  saveToken.save();
+    if(!result){
+        return false
+    } else{
+        return true
+    }
     }catch(error){
            return errorData(RESPONSE.sendResponse(false,"",error.message,STATUS_CODE.INTERNAL_SERVER_ERROR))
     }

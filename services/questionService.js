@@ -1,8 +1,11 @@
 const Questions = require('../models/question.model');
+const {
+    ObjectId
+  } = require("mongodb");
 
 async function getQuestions(req, successData, errorData) {
     try {
-        const subjectId = req.params.subjectId;
+        const subjectId = req.body.subjectid;
 
         let questions = await Questions.aggregate([
             { $match: { "_id": ObjectId(subjectId) } }
@@ -31,7 +34,7 @@ async function getQuestions(req, successData, errorData) {
             { $project: { _id: 0, question: "$question.question", questionid: "$question._id", options_list: "$answer" } }
         ]);
 
-        if(!questions){
+        if(questions.length < 1){
             return errorData(RESPONSE.sendResponse(false,"",CUSTOM_MESSAGE.RECORD_NOT_FOUND,STATUS_CODE.NOT_FOUND));
         }
         else {

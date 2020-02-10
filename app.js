@@ -3,12 +3,14 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+// const cors = require('cors')
 
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
 const subjects = require('./routes/subjectRoutes');
 const questions = require('./routes/questionRoutes');
 const answers = require('./routes/answersRoutes');
+
 
 
 
@@ -54,14 +56,14 @@ app.use('/uploads', express.static('uploads'));
 
 app.use(morgan('dev'));
 
-
+//app.use(cors());
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin","*");   
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Action, Authorization");
    
     if(req.method === "OPTIONS"){
         res.header("Access-Control-Allow-Methods","GET,POST,DELETE,PUT,PATCH");
-        return res.status(200).json({})
+        return res.status(200).json({});
     }
     next();
 })

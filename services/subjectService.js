@@ -3,8 +3,7 @@ const Subject = require('../models/subject.model');
 
 
 async function addSubjects(req,successData,errorData){
-    try{
-        console.log("File Path")
+    try{       
         let {subjectName,subjectDescription,examTime,} = req.body;
         
         subjectName = subjectName.toUpperCase();
@@ -35,13 +34,13 @@ async function getSubjets(req,successData,errorData){
     try{
         let allSubject = await Subject.find({});
         if(!allSubject){
-            return errorData(Response.sendResponse(false, "", CUSTOM_MESSAGE.RECORD_NOT_FOUND, STATUS_CODE.NOT_FOUND))
+            return errorData(RESPONSE.sendResponse(false, "", CUSTOM_MESSAGE.RECORD_NOT_FOUND, STATUS_CODE.NOT_FOUND))
         } else {
-            return successData(Response.sendResponse(true, allSubject, CUSTOM_MESSAGE.GET_ALL_RECORDS, STATUS_CODE.OK));
+            return successData(RESPONSE.sendResponse(true, allSubject, CUSTOM_MESSAGE.GET_ALL_RECORDS, STATUS_CODE.OK));
         }
 
     } catch(error){
-        return res.send(Response.sendResponse(false, null, error.message, STATUS_CODE.INTERNAL_SERVER_ERROR));
+        return errorData(RESPONSE.sendResponse(false, null, error.message, STATUS_CODE.INTERNAL_SERVER_ERROR));
     }
 }
 
